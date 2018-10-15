@@ -834,6 +834,12 @@ def batch_slice(inputs, graph_fn, batch_size, names=None):
 
     return result
 
+from google_drive_downloader import GoogleDriveDownloader as gdd
+
+def download_from_google_drive(share_link, file_path):
+    gdd.download_file_from_google_drive(file_id=share_link,
+                                        dest_path=file_path,
+                                        unzip=True)
 
 def download_trained_weights(coco_model_path, verbose=1):
     """Download COCO trained weights from Releases.
