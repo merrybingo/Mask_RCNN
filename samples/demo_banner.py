@@ -29,19 +29,23 @@ from mrcnn import visualize
 sys.path.append(os.path.join(ROOT_DIR, "samples/coco/"))  # To find local version
 import coco
 
+# Import banner config
+sys.path.append(os.path.join(ROOT_DIR, "samples/banner/"))  # To find local version
+import banner
+
 # get_ipython().run_line_magic('matplotlib', 'inline')
 
 # Directory to save logs and trained model
 MODEL_DIR = os.path.join(ROOT_DIR, "logs")
 
 # Local path to trained weights file
-COCO_MODEL_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
+COCO_MODEL_PATH = os.path.join(ROOT_DIR, "mask_rcnn_banner.h5")
 # Download COCO trained weights from Releases if needed
 if not os.path.exists(COCO_MODEL_PATH):
     utils.download_trained_weights(COCO_MODEL_PATH)
 
 # Directory of images to run detection on
-IMAGE_DIR = os.path.join(ROOT_DIR, "images")
+IMAGE_DIR = os.path.join(ROOT_DIR, "images_banner")
 
 
 # ## Configurations
@@ -53,7 +57,7 @@ IMAGE_DIR = os.path.join(ROOT_DIR, "images")
 # In[2]:
 
 
-class InferenceConfig(coco.CocoConfig):
+class InferenceConfig(banner.bannerConfig):
     # Set batch size to 1 since we'll be running inference on
     # one image at a time. Batch size = GPU_COUNT * IMAGES_PER_GPU
     GPU_COUNT = 1
@@ -100,21 +104,7 @@ model.load_weights(COCO_MODEL_PATH, by_name=True)
 # COCO Class names
 # Index of the class in the list is its ID. For example, to get ID of
 # the teddy bear class, use: class_names.index('teddy bear')
-class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
-               'bus', 'train', 'truck', 'boat', 'traffic light',
-               'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird',
-               'cat', 'dog', 'horse', 'sheep', 'cow', 'elephant', 'bear',
-               'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie',
-               'suitcase', 'frisbee', 'skis', 'snowboard', 'sports ball',
-               'kite', 'baseball bat', 'baseball glove', 'skateboard',
-               'surfboard', 'tennis racket', 'bottle', 'wine glass', 'cup',
-               'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple',
-               'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza',
-               'donut', 'cake', 'chair', 'couch', 'potted plant', 'bed',
-               'dining table', 'toilet', 'tv', 'laptop', 'mouse', 'remote',
-               'keyboard', 'cell phone', 'microwave', 'oven', 'toaster',
-               'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors',
-               'teddy bear', 'hair drier', 'toothbrush']
+class_names = ['BG', 'banner']
 
 
 # ## Run Object Detection
@@ -123,12 +113,8 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 
 
 # Load a random image from the images folder
-# file_names = next(os.walk(IMAGE_DIR))[2]
-# image = skimage.io.imread(os.path.join(IMAGE_DIR, random.choice(file_names)))
-
-IMAGE_DIR = "/home/hyejin/data/input"
-file_name = "1.jpg"
-image = skimage.io.imread(os.path.join(IMAGE_DIR, file_name))
+file_names = next(os.walk(IMAGE_DIR))[2]
+image = skimage.io.imread(os.path.join(IMAGE_DIR, random.choice(file_names)))
 
 # Run detection
 results = model.detect([image], verbose=1)
@@ -138,3 +124,4 @@ r = results[0]
 visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'], 
                             class_names, r['scores'])
 
+print("finish")
