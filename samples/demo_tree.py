@@ -29,9 +29,9 @@ from mrcnn import visualize
 sys.path.append(os.path.join(ROOT_DIR, "samples/coco/"))  # To find local version
 import coco
 
-# Import banner config
-sys.path.append(os.path.join(ROOT_DIR, "samples/banner/"))  # To find local version
-import banner
+# Import tree config
+sys.path.append(os.path.join(ROOT_DIR, "samples/tree/"))  # To find local version
+import tree
 
 # get_ipython().run_line_magic('matplotlib', 'inline')
 
@@ -39,14 +39,14 @@ import banner
 MODEL_DIR = os.path.join(ROOT_DIR, "logs")
 
 # Local path to trained weights file
-weights_name = "mask_rcnn_banner_200.h5"
+weights_name = "mask_rcnn_tree_200.h5"
 COCO_MODEL_PATH = os.path.join(ROOT_DIR, weights_name)
 # Download COCO trained weights from Releases if needed
 if not os.path.exists(COCO_MODEL_PATH):
-    utils.download_from_google_drive("1KXJRBJtkgq-DA9COxSikpVhJTqHaPZMW", "../{0}".format(weights_name))
+    utils.download_from_google_drive("1UZxbG_U0N8cB69IJjBmxbH4pqSKMWsvl", "../{0}".format(weights_name))
 
 # Directory of images to run detection on
-IMAGE_DIR = os.path.join(ROOT_DIR, "input_banner")
+IMAGE_DIR = os.path.join(ROOT_DIR, "input_tree")
 
 
 # ## Configurations
@@ -58,7 +58,7 @@ IMAGE_DIR = os.path.join(ROOT_DIR, "input_banner")
 # In[2]:
 
 
-class InferenceConfig(banner.bannerConfig):
+class InferenceConfig(tree.treeConfig):
     # Set batch size to 1 since we'll be running inference on
     # one image at a time. Batch size = GPU_COUNT * IMAGES_PER_GPU
     GPU_COUNT = 1
@@ -105,7 +105,7 @@ model.load_weights(COCO_MODEL_PATH, by_name=True)
 # COCO Class names
 # Index of the class in the list is its ID. For example, to get ID of
 # the teddy bear class, use: class_names.index('teddy bear')
-class_names = ['BG', 'banner']
+class_names = ['BG', 'tree']
 
 
 # ## Run Object Detection
