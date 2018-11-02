@@ -46,7 +46,7 @@ if not os.path.exists(COCO_MODEL_PATH):
     utils.download_from_google_drive("1UZxbG_U0N8cB69IJjBmxbH4pqSKMWsvl", "../{0}".format(weights_name))
 
 # Directory of images to run detection on
-IMAGE_DIR = os.path.join(ROOT_DIR, "input_tree")
+IMAGE_DIR = os.path.join(ROOT_DIR, "images_tree")
 
 
 # ## Configurations
